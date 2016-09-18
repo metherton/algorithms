@@ -1,5 +1,6 @@
 var readline = require('readline');
 var numberOfElements = 0;
+var lineNumber = 0;
 var elements;
 var ints = [];
 
@@ -12,21 +13,25 @@ var rl = readline.createInterface({
 rl.on('line', readLine);
 
 function readLine(line) {
-  console.log('in readline');
-  console.log('number of element', numberOfElements);
+  var largest = 0;
+  var secondLargest = 0;
   if (line !== "\n") {
-    if (numberOfElements === 0) {
-        console.log('first');
+     if (lineNumber === 0) {
         numberOfElements = parseInt(line.toString(), 10);
-        console.log('number of elements', numberOfElements);
-    } else {
-        console.log('second');
+        lineNumber++;
+     } else {
         elements = line.toString().split(' ');
         for (i = 0; i < numberOfElements; i++) {
             ints[i] = parseInt(elements[i], 10);
+            if (ints[i] >= largest) {
+                secondLargest = largest;;
+                largest = ints[i];
+            } else if (ints[i] >= secondLargest) {
+                secondLargest = ints[i];
+            }
         }
-        console.log(ints);
+        console.log('max product is:', largest * secondLargest);
         process.exit();
-    }
+     }
   }
 }
